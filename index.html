@@ -79,13 +79,13 @@ header.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12p
 
 .example-banner { background: var(--accent-soft); color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 13px; }
 
-main.grid { display: grid; grid-template-columns: minmax(340px, 420px) minmax(0, 1fr); gap: 20px; padding-block: 20px 48px; align-items: start; }
-@media (max-width: 1080px) { main.grid { grid-template-columns: minmax(0, 1fr); } }
+main.grid { display: grid; grid-template-columns: minmax(330px, 380px) minmax(0, 1fr); gap: 20px; padding-block: 20px 48px; align-items: start; }
+@media (max-width: 1180px) { main.grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* 입력 패널 */
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
 aside.panel { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); max-height: calc(100vh - 24px); display: flex; flex-direction: column; }
-@media (max-width: 1080px) { aside.panel { position: static; max-height: none; } }
+@media (max-width: 1180px) { aside.panel { position: static; max-height: none; } }
 .student { padding: 16px; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
 .field { display: grid; gap: 4px; min-width: 0; }
 .field > label, .lbl { font-size: 12px; color: var(--muted); font-weight: 500; }
@@ -141,7 +141,7 @@ section.results { min-width: 0; display: grid; gap: 14px; }
 .scorebar .cell { padding: 10px 12px; border-right: 1px solid var(--line); min-width: 0; }
 .scorebar .cell:last-child { border-right: 0; }
 .scorebar .k { font-size: 11.5px; color: var(--muted); }
-.scorebar .v { font-family: var(--font-num); font-size: 13px; }
+.scorebar .v { font-family: var(--font-num); font-size: 13px; white-space: nowrap; }
 .scorebar .v b { font-size: 15px; }
 
 .tally { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
@@ -159,14 +159,17 @@ section.results { min-width: 0; display: grid; gap: 14px; }
 .warn { border: 1px solid var(--line); background: var(--hope-bg); color: var(--fg); border-radius: var(--radius); padding: 9px 12px; font-size: 13px; }
 
 .tablewrap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow-x: auto; }
-table.res { width: 100%; border-collapse: collapse; min-width: 1120px; }
-table.res thead th { position: sticky; top: 0; background: var(--sunken); font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.res { width: 100%; border-collapse: collapse; }
+table.res thead th { position: sticky; top: 0; background: var(--sunken); font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: right; padding: 8px 7px; border-bottom: 1px solid var(--line); white-space: nowrap; line-height: 1.35; }
 table.res thead th.l { text-align: left; }
-table.res td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 13px; white-space: nowrap; }
+table.res td { padding: 9px 7px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 13px; white-space: nowrap; }
 table.res td.l { text-align: left; font-family: var(--font-body); white-space: normal; }
 table.res tbody tr:hover { background: var(--sunken); }
 table.res td .sub { display: block; font-size: 11.5px; color: var(--muted); }
-table.res td.uname { min-width: 190px; }
+table.res td.uname { min-width: 130px; }
+table.res td.uname .gun { margin-right: 6px; vertical-align: 1px; }
+table.res td.facts { text-align: left; font-size: 12px; line-height: 1.55; }
+table.res td.facts i { font-style: normal; font-family: var(--font-body); color: var(--muted); font-size: 11px; display: inline-block; width: 2.4em; }
 table.res td.uname b { font-weight: 600; font-size: 13.5px; }
 table.res td.uname .note { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; white-space: pre-line; }
 td.total b { font-size: 14.5px; }
@@ -180,7 +183,6 @@ td.total b { font-size: 14.5px; }
 .up { color: var(--up); } .down { color: var(--down); }
 .tag { display: inline-block; font-family: var(--font-body); font-size: 11px; font-weight: 600; border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; margin-top: 3px; color: var(--accent); }
 .empty { padding: 40px 16px; text-align: center; color: var(--muted); }
-.hide-d { display: none; }
 
 @media (max-width: 760px) {
   table.res { min-width: 0; }
@@ -190,11 +192,11 @@ td.total b { font-size: 14.5px; }
   table.res td { border: 0; padding: 0; text-align: left; white-space: normal; }
   table.res td::before { content: attr(data-label); display: block; font-family: var(--font-body); font-size: 11px; color: var(--muted); }
   table.res td.verdict, table.res td.uname { grid-column: 1 / -1; }
-  table.res td.verdict::before, table.res td.uname::before, table.res td.gunc { display: none; }
+  table.res td.verdict::before, table.res td.uname::before { display: none; }
+  table.res td.facts { grid-column: 1 / -1; }
+  table.res td.facts::before { display: none; }
   table.res td.verdict { display: flex; gap: 8px; align-items: center; }
   table.res td.verdict .gap { margin: 0; }
-  table.res td.hide-m { display: none; }
-  table.res .hide-d { display: inline; }
 }
 
 /* 기록 서랍 */
@@ -334,11 +336,11 @@ td.total b { font-size: 14.5px; }
       <div class="tablewrap">
         <table class="res">
           <thead><tr>
-            <th class="l">판정</th><th class="l">군</th><th class="l">대학 학과</th>
-            <th>내 총점</th><th>안정 / 기대</th>
-            <th>수능 내점수</th><th>합격 평균</th><th>과부족</th><th>실기상위권<br>지원점수</th>
-            <th>내신</th><th>실기</th>
-            <th>모집 25·26·27</th><th>경쟁률 25·26</th><th>충원 26·25·24</th>
+            <th class="l">판정</th><th class="l">군 · 대학 학과</th>
+            <th>내 총점</th><th>안정<br>기대</th>
+            <th>수능 내점수<br>합격평균 · 과부족</th><th>실기상위권<br>지원점수</th>
+            <th>내신<br>실기</th>
+            <th class="l">모집 25·26·27<br>경쟁률 25·26 · 충원 26·25·24</th>
           </tr></thead>
           <tbody id="resBody"></tbody>
         </table>
@@ -978,7 +980,7 @@ td.total b { font-size: 14.5px; }
   function renderScorebar() {
     const s = st.su;
     const cell = (k, a, b, c) => `<div class="cell"><div class="k">${esc(k)}</div><div class="v">${a}</div></div>`;
-    const tri = (o) => `<b>${fmt(numOrStr(o.std))}</b> · ${fmt(numOrStr(o.pct))} · ${fmt(numOrStr(o.grade))}등급`;
+    const tri = (o) => `<b>${fmt(numOrStr(o.std))}</b> · ${fmt(numOrStr(o.pct))} · ${fmt(numOrStr(o.grade))}`;
     $('scorebar').innerHTML =
       cell('국어 표준·백분위·등급', tri(s.kor)) +
       cell('수학 표준·백분위·등급', tri(s.math)) +
@@ -1013,7 +1015,7 @@ td.total b { font-size: 14.5px; }
     if (ui.sort === 'margin') list = list.slice().sort((a, b) => margin(b) - margin(a));
     else if (ui.sort === 'su') list = list.slice().sort((a, b) => (isNum(b.diff) ? b.diff : -Infinity) - (isNum(a.diff) ? a.diff : -Infinity));
     else if (ui.sort === 'name') list = list.slice().sort((a, b) => a.name.localeCompare(b.name, 'ko'));
-    if (!list.length) { $('resBody').innerHTML = `<tr><td class="l empty" colspan="14">조건에 맞는 대학이 없습니다.</td></tr>`; return; }
+    if (!list.length) { $('resBody').innerHTML = `<tr><td class="l empty" colspan="8">조건에 맞는 대학이 없습니다.</td></tr>`; return; }
     $('resBody').innerHTML = list.map((r) => {
       let gapTxt = '';
       if (r.v.k === 'safe') gapTxt = `안정 ${signed(r.total - r.safe)}`;
@@ -1024,19 +1026,16 @@ td.total b { font-size: 14.5px; }
       const dcls = isNum(r.diff) ? (r.diff >= 0 ? 'pos' : 'neg') : '';
       return `<tr>
         <td class="l verdict" data-label="판정"><span class="pill ${r.v.k}">${r.v.label}</span><span class="gap">${gapTxt}</span></td>
-        <td class="l gunc" data-label="군"><span class="gun">${fmt(r.gun)}</span></td>
-        <td class="l uname" data-label="대학 학과"><b>${esc(r.name)}</b> <span class="muted hide-d">${r.gun ? esc(r.gun) + '군' : ''}</span>${note}</td>
+        <td class="l uname" data-label="대학 학과"><span class="gun" title="${r.gun ? esc(r.gun) + '군' : ''}">${fmt(r.gun)}</span><b>${esc(r.name)}</b>${note}</td>
         <td class="total" data-label="내 총점"><b>${fmt(r.total)}</b></td>
         <td data-label="안정 / 기대">${fmt(r.safe)}<span class="sub">${fmt(r.hope)}</span></td>
-        <td data-label="수능 내점수">${fmt(r.my)}</td>
-        <td data-label="합격 평균">${fmt(r.avg)}</td>
-        <td data-label="과부족" class="${dcls}">${signed(r.diff)}</td>
-        <td data-label="실기상위권 지원점수">${fmt(r.top)}${topOk ? '<br><span class="tag">실기상위권 지원 가능</span>' : ''}</td>
-        <td data-label="내신">${fmt(r.naesin)}</td>
-        <td data-label="실기">${fmt(r.silgi)}</td>
-        <td data-label="모집 25·26·27" class="hide-m">${fmt(r.m25)} · <span class="${trend(r.m25, r.m26)}">${fmt(r.m26)}</span> · <span class="${trend(r.m26, r.m27)}">${fmt(r.m27)}</span></td>
-        <td data-label="경쟁률 25·26" class="hide-m">${fmt(r.c25, 1)} · <span class="${trend(r.c25, r.c26)}">${fmt(r.c26, 1)}</span></td>
-        <td data-label="충원 26·25·24" class="hide-m">${fmt(r.f26)} · ${fmt(r.f25)} · ${fmt(r.f24)}</td>
+        <td data-label="수능 내점수 / 합격평균">${fmt(r.my)}<span class="sub">${fmt(r.avg)} · <span class="${dcls}">${signed(r.diff)}</span></span></td>
+        <td data-label="실기상위권 지원점수">${fmt(r.top)}${topOk ? '<br><span class="tag">지원 가능</span>' : ''}</td>
+        <td data-label="내신 / 실기">${fmt(r.naesin)}<span class="sub">${fmt(r.silgi)}</span></td>
+        <td class="facts" data-label="입시 지표">
+          <span><i>모집</i>${fmt(r.m25)} · <span class="${trend(r.m25, r.m26)}">${fmt(r.m26)}</span> · <span class="${trend(r.m26, r.m27)}">${fmt(r.m27)}</span></span><br>
+          <span><i>경쟁</i>${fmt(r.c25, 1)} · <span class="${trend(r.c25, r.c26)}">${fmt(r.c26, 1)}</span></span><br>
+          <span><i>충원</i>${fmt(r.f26)} · ${fmt(r.f25)} · ${fmt(r.f24)}</span></td>
       </tr>`;
     }).join('');
   }
