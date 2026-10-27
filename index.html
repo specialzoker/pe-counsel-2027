@@ -216,6 +216,63 @@ td.total b { font-size: 14.5px; }
 .rec .mini span { font-family: var(--font-num); }
 .author { font-size: 12px; font-weight: 600; color: var(--muted); margin: 8px 0 0; }
 
+/* 대학 개별 시트 */
+.ulink { border: 0; background: none; padding: 0; font: inherit; color: var(--fg); font-weight: 600; font-size: 13.5px; text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.ulink:hover { color: var(--accent); text-decoration-color: currentColor; }
+.us-back { position: fixed; inset: 0; background: rgb(10 14 22 / 50%); z-index: 50; }
+.us { position: fixed; z-index: 51; inset: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  margin: 0 auto; max-width: 1240px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; }
+@media (max-width: 640px) { .us { inset: 0; border-radius: 0; padding-top: env(safe-area-inset-top, 0px); } }
+.us-head { background: var(--surface); border-bottom: 1px solid var(--line); padding: 14px 18px; display: flex; gap: 10px 16px; align-items: flex-start; flex-wrap: wrap; }
+.us-head h3 { margin: 0; font-size: 19px; display: flex; gap: 8px; align-items: center; }
+.us-head .facts2 { font-size: 12.5px; color: var(--muted); margin-top: 4px; font-family: var(--font-num); }
+.us-head .facts2 .note { font-family: var(--font-body); display: block; }
+.us-head .acts { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.us-scroll { overflow: auto; min-height: 0; flex: 1; }
+.us-grid { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; padding: 16px 18px 28px; align-items: start; }
+@media (max-width: 900px) { .us-grid { grid-template-columns: minmax(0, 1fr); } }
+.us-side { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; position: sticky; top: 0; display: grid; gap: 10px; }
+@media (max-width: 900px) { .us-side { position: static; } }
+.us-side h4, .us-sec h4 { margin: 0; font-size: 14px; }
+.us-side .hint { margin: 0; }
+.us-side table.su input { padding: 5px 1px; font-size: 12.5px; }
+.us-side .ev { grid-template-columns: minmax(0, 1fr) 84px; }
+.us-main { display: grid; gap: 14px; min-width: 0; }
+.delta { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.delta > div { padding: 10px 12px; border-right: 1px solid var(--line); min-width: 0; }
+.delta > div:last-child { border-right: 0; }
+.delta .k { font-size: 11.5px; color: var(--muted); }
+.delta .v { font-family: var(--font-num); font-size: 18px; font-weight: 600; }
+.delta .was { font-size: 11.5px; color: var(--muted); font-family: var(--font-num); }
+.us-sec { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 10px; min-width: 0; }
+.us-sec .cap { font-size: 11.5px; color: var(--muted); }
+.formula { line-height: 2.25; font-size: 13.5px; overflow-wrap: anywhere; }
+.formula .op { color: var(--muted); padding: 0 3px; }
+.chip { display: inline-flex; align-items: baseline; gap: 5px; border: 1px solid var(--line); background: var(--sunken); border-radius: 6px; padding: 0 7px; line-height: 1.7; white-space: nowrap; }
+.chip i { font-style: normal; color: var(--muted); font-size: 12px; }
+.chip b { font-family: var(--font-num); font-weight: 600; }
+.chip.lk { background: var(--accent-soft); }
+.fn { white-space: normal; }
+.fn > em { font-style: normal; color: var(--accent); font-weight: 600; font-size: 12.5px; }
+.eq { font-family: var(--font-num); color: var(--accent); font-weight: 600; margin-left: 3px; }
+.total-line { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; border-top: 1px dashed var(--line); padding-top: 8px; }
+.total-line b { font-family: var(--font-num); font-size: 18px; }
+.lktables { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.ltab { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; min-width: 0; }
+.ltab .t { background: var(--sunken); padding: 6px 10px; font-size: 12.5px; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; }
+.ltab .t span { font-weight: 400; color: var(--muted); font-size: 11.5px; }
+.gridtab { overflow-x: auto; }
+.gridtab table { border-collapse: collapse; font-family: var(--font-num); font-size: 12px; }
+.gridtab th, .gridtab td { border-right: 1px solid var(--line); padding: 4px 7px; text-align: center; white-space: nowrap; }
+.gridtab th { font-family: var(--font-body); font-weight: 500; color: var(--muted); text-align: left; background: var(--surface); position: sticky; left: 0; }
+.gridtab tr + tr td, .gridtab tr + tr th { border-top: 1px solid var(--line); }
+.gridtab td.hit { background: var(--accent); color: var(--surface); font-weight: 700; }
+.evcard { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; display: grid; gap: 8px; min-width: 0; }
+.evcard .top { display: flex; gap: 8px 14px; align-items: baseline; flex-wrap: wrap; }
+.evcard .top b { font-size: 13.5px; }
+.evcard .top .pts { margin-left: auto; font-family: var(--font-num); font-size: 15px; font-weight: 600; }
+.evcard .top .rec { font-family: var(--font-num); color: var(--muted); font-size: 12.5px; }
+.chg { font-family: var(--font-num); font-size: 12px; font-weight: 600; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--surface); padding: 9px 16px; border-radius: 8px; font-size: 13px; z-index: 60; max-width: calc(100% - 32px); }
 @media (prefers-reduced-motion: no-preference) { .toast { animation: rise .18s ease-out; } @keyframes rise { from { opacity: 0; transform: translate(-50%, 6px); } } }
 </style>
@@ -358,6 +415,16 @@ td.total b { font-size: 14.5px; }
     <button type="button" role="tab" aria-selected="false" data-dtab="all" id="dtab-all" hidden>전체 기록 (관리자)</button>
   </div>
   <div class="drawer-body" id="drawerBody"></div>
+</div>
+<div class="us-back" id="usBack" hidden></div>
+<div class="us" id="us" role="dialog" aria-modal="true" aria-labelledby="usTitle" hidden>
+  <div class="us-head" id="usHead"></div>
+  <div class="us-scroll">
+    <div class="us-grid">
+      <div class="us-side" id="usSide"></div>
+      <div class="us-main" id="usMain"></div>
+    </div>
+  </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
 
@@ -870,7 +937,7 @@ td.total b { font-size: 14.5px; }
     },
   };
 
-  global.XlEngine = { Workbook, XErr, ERR, parse, tokenize, parseAddr, colName, colNum, isErr };
+  global.XlEngine = { Workbook, XErr, ERR, parse, tokenize, parseAddr, colName, colNum, isErr, approxIndex, Range, Union };
 })(typeof window !== 'undefined' ? window : globalThis);
 </script>
 <script>
@@ -1026,7 +1093,7 @@ td.total b { font-size: 14.5px; }
       const dcls = isNum(r.diff) ? (r.diff >= 0 ? 'pos' : 'neg') : '';
       return `<tr>
         <td class="l verdict" data-label="판정"><span class="pill ${r.v.k}">${r.v.label}</span><span class="gap">${gapTxt}</span></td>
-        <td class="l uname" data-label="대학 학과"><span class="gun" title="${r.gun ? esc(r.gun) + '군' : ''}">${fmt(r.gun)}</span><b>${esc(r.name)}</b>${note}</td>
+        <td class="l uname" data-label="대학 학과"><span class="gun" title="${r.gun ? esc(r.gun) + '군' : ''}">${fmt(r.gun)}</span><button type="button" class="ulink" data-uidx="${r.idx}" title="대학 개별 시트 열기">${esc(r.name)}</button>${note}</td>
         <td class="total" data-label="내 총점"><b>${fmt(r.total)}</b></td>
         <td data-label="안정 / 기대">${fmt(r.safe)}<span class="sub">${fmt(r.hope)}</span></td>
         <td data-label="수능 내점수 / 합격평균">${fmt(r.my)}<span class="sub">${fmt(r.avg)} · <span class="${dcls}">${signed(r.diff)}</span></span></td>
@@ -1234,6 +1301,348 @@ td.total b { font-size: 14.5px; }
     }
   }
 
+  // ---------- 대학 개별 시트 ----------
+  // 학생상담 행 → 상담 시트 행(수능 산출식) → 실기환산 열(실기 배점) 연결을 엑셀 수식에서 읽는다.
+  const { colNum, colName, isErr } = XlEngine;
+  const SU_COL = { 8: '국어', 9: '수학', 10: '영어', 11: '탐구1', 12: '탐구2', 13: '한국사', 14: '탐구평균' };
+  const SU_ROW = { 4: '과목', 5: '표준점수', 6: '백분위', 7: '등급', 8: '표준점수 만점', 9: '원점수' };
+  const astCache = new Map();
+  const parseF = (f) => { if (!astCache.has(f)) astCache.set(f, XlEngine.parse(f)); return astCache.get(f); };
+  const fmtV = (v) => (isErr(v) ? '–' : v === null || v === undefined ? '–' : typeof v === 'number' ? (isFinite(v) ? String(Math.round(v * 100) / 100) : '–') : esc(v));
+
+  function rowInfo(g, outRow) {
+    const sd = '상담(' + g + ')', ex = '실기환산(' + g + ')';
+    const hf = MODEL.sheets['학생상담(' + g + ')'].f['H' + outRow] || '';
+    const m = /!\$?H\$?(\d+)$/.exec(hf);
+    const sr = m ? +m[1] : null;
+    const mf = sr ? MODEL.sheets[sd].f['M' + sr] || '' : '';
+    const mm = /실기환산\(.\)'!\$?([A-Z]+)\$?3$/.exec(mf);
+    return { g, outRow, sd, ex, sr, silgiCol: mm ? colNum(mm[1]) : null };
+  }
+  function exEventName(g, r) {
+    const sh = MODEL.sheets['실기환산(' + g + ')'];
+    const am = /!\$?A\$?(\d+)$/.exec(sh.f['A' + r] || '');
+    if (am) { const e = META.genders[g].events.find((x) => x.row === +am[1]); if (e) return e.name; }
+    const v = sh.v['A' + r];
+    return typeof v === 'string' ? v : null;
+  }
+  function univEvents(info) {
+    if (!info.silgiCol) return [];
+    const sh = MODEL.sheets[info.ex], col = colName(info.silgiCol), out = [];
+    for (let r = 5; r <= 140; r++) {
+      const f = sh.f[col + r]; if (!f) continue;
+      const name = exEventName(info.g, r); if (!name) continue;
+      out.push({ r, f, name });
+    }
+    return out;
+  }
+
+  function makeExplainer(info) {
+    const ex = info.ex, sd = info.sd;
+    function strNear(sheet, r, c) {
+      const sh = MODEL.sheets[sheet]; if (!sh) return null;
+      const left = sh.v[colName(c - 1) + r];
+      if (typeof left === 'string' && left.trim()) return left.trim();
+      for (let k = 1; k <= 6 && r - k >= 1; k++) { const up = sh.v[colName(c) + (r - k)]; if (typeof up === 'string' && up.trim()) return up.trim(); }
+      return null;
+    }
+    function label(sheet, r, c) {
+      if (sheet === sd && SU_COL[c] && SU_ROW[r]) {
+        let subj = SU_COL[c];
+        if (c === 11 || c === 12) { const n = wb.cell(sd, 4, c); if (n && !isErr(n)) subj = subj + '(' + n + ')'; }
+        return subj + ' ' + SU_ROW[r];
+      }
+      if (sheet === ex) { const n = exEventName(info.g, r); return c === 2 ? (n || '기록') + ' 기록' : (n || '종목') + ' 점수'; }
+      const near = strNear(sheet, r, c);
+      return (near ? near + ' ' : '') + (sheet === sd ? '계산값' : sheet + '!' + colName(c) + r);
+    }
+    function valueOf(ast, ctx) {
+      try { return wb.deref(wb.ev(ast, ctx), ctx); } catch (e) { if (isErr(e)) return e; throw e; }
+    }
+    const chip = (lbl, v, cls) => `<span class="chip${cls ? ' ' + cls : ''}"><i>${esc(lbl)}</i><b>${fmtV(v)}</b></span>`;
+    function sheetOf(node, ctx) { return node.sheet ? wb.sheet(node.sheet).name : ctx.sheet; }
+    function cellChip(sheet, r, c) { return chip(label(sheet, r, c), wb.cell(sheet, r, c)); }
+    function rangeHtml(sheet, n) {
+      const cells = [];
+      for (let r = n.r1; r <= n.r2; r++) for (let c = n.c1; c <= n.c2; c++) {
+        if (sheet === ex && !MODEL.sheets[ex].f[colName(c) + r]) continue; // 실기 열은 종목 행만
+        cells.push([r, c]);
+      }
+      if (sheet === ex) {
+        const used = cells.filter(([r, c]) => { const v = wb.cell(sheet, r, c); return typeof v === 'number' && v !== 0; });
+        return '[' + (used.length ? used.map(([r, c]) => cellChip(sheet, r, c)).join(' ') : '<span class="muted">점수 없음</span>') + ']';
+      }
+      if (cells.length > 12) return `<span class="chip"><i>${esc(sheet)}!${colName(n.c1)}${n.r1}:${colName(n.c2)}${n.r2}</i></span>`;
+      return '[' + cells.map(([r, c]) => cellChip(sheet, r, c)).join(' ') + ']';
+    }
+    const PREC = { '=': 0, '<>': 0, '<': 0, '>': 0, '<=': 0, '>=': 0, '&': 1, '+': 2, '-': 2, '*': 3, '/': 3, '^': 4 };
+    const SYM = { '*': '×', '/': '÷', '-': '−', '+': '+', '^': '^', '&': '&', '=': '=', '<>': '≠', '<': '<', '>': '>', '<=': '≤', '>=': '≥' };
+    const FN_KO = { MAX: '가장 큰 값', MIN: '가장 작은 값', SUM: '합', AVERAGE: '평균', ROUND: '반올림', ABS: '절댓값' };
+    function lookupLabel(node, ctx) {
+      const a0 = node.args[0], tbl = node.args[1];
+      const tsheet = tbl && tbl.k === 'ref' ? sheetOf(tbl, ctx) : (tbl && tbl.k === 'name' ? tbl.v : '');
+      let al = '값';
+      if (a0.k === 'ref' && a0.r1 === a0.r2 && a0.c1 === a0.c2) al = label(sheetOf(a0, ctx), a0.r1, a0.c1);
+      const av = valueOf(a0, ctx);
+      if (tsheet === '영어한국사') {
+        if (/영어/.test(al)) return `영어 ${fmtV(av)}등급 환산`;
+        if (/한국사/.test(al)) return `한국사 ${fmtV(av)}등급 환산`;
+        return `${al} ${fmtV(av)} 환산`;
+      }
+      if (tsheet === '변환점수') return `${al} ${fmtV(av)} → 변환표준점수`;
+      if (tsheet === '배점표' || /남$|여$/.test(tsheet)) return `기록 ${fmtV(av)} → 배점`;
+      return `${al} 조회`;
+    }
+    function render(n, ctx, pp, right) {
+      switch (n.k) {
+        case 'lit': return typeof n.v === 'number' ? String(parseFloat(n.v.toPrecision(12))) : isErr(n.v) ? n.v.code : '“' + esc(n.v) + '”';
+        case 'missing': return '';
+        case 'ref': {
+          const sheet = sheetOf(n, ctx);
+          if (n.r1 === n.r2 && n.c1 === n.c2) return cellChip(sheet, n.r1, n.c1);
+          return rangeHtml(sheet, n);
+        }
+        case 'name': return chip(n.v, valueOf(n, ctx));
+        case 'union': return '[' + n.items.map((it) => (it.k === 'ref' ? (it.r1 === it.r2 && it.c1 === it.c2 ? cellChip(sheetOf(it, ctx), it.r1, it.c1) : rangeHtml(sheetOf(it, ctx), it).slice(1, -1)) : render(it, ctx, 0))).join(' ') + ']';
+        case 'neg': return '−' + render(n.e, ctx, 5);
+        case 'pct': return render(n.e, ctx, 5) + '%';
+        case 'bin': {
+          const p = PREC[n.op];
+          const s = render(n.l, ctx, p, false) + `<span class="op">${SYM[n.op]}</span>` + render(n.r, ctx, p, true);
+          return p < pp || (right && p === pp) ? `<span class="op">(</span>${s}<span class="op">)</span>` : s;
+        }
+        case 'call': {
+          const v = valueOf(n, ctx);
+          if (n.fn === 'VLOOKUP' || n.fn === 'HLOOKUP') return chip(lookupLabel(n, ctx), v, 'lk');
+          if (n.fn === 'INDEX' || n.fn === 'MATCH') return chip('표 조회', v, 'lk');
+          if (n.fn === 'LARGE' || n.fn === 'SMALL') {
+            const k = valueOf(n.args[1], ctx);
+            return `<span class="fn"><em>${fmtV(k)}번째로 ${n.fn === 'LARGE' ? '큰' : '작은'} 값</em>${render(n.args[0], ctx, 0)}<span class="eq">= ${fmtV(v)}</span></span>`;
+          }
+          if (n.fn === 'IF') {
+            return `<span class="fn"><em>만약</em> ${render(n.args[0], ctx, 0)} <em>이면</em> ${render(n.args[1], ctx, 0)}, <em>아니면</em> ${n.args[2] ? render(n.args[2], ctx, 0) : 'FALSE'}<span class="eq">= ${fmtV(v)}</span></span>`;
+          }
+          const args = n.args.map((a) => render(a, ctx, 0)).join(', ');
+          return `<span class="fn"><em>${FN_KO[n.fn] || n.fn}</em>(${args})<span class="eq">= ${fmtV(v)}</span></span>`;
+        }
+      }
+      return '';
+    }
+    return { render: (f, ctx) => render(parseF(f), ctx, -1, false), valueOf, label };
+  }
+
+  // 수능 산출식과 그 보조 계산칸에서 영어한국사 시트 조회표를 모은다
+  function gradeTables(info) {
+    const found = new Map();
+    const sd = info.sd;
+    const visit = (n, ctx, depth, neg) => {
+      if (!n || depth > 4) return;
+      switch (n.k) {
+        case 'bin': visit(n.l, ctx, depth, neg); visit(n.r, ctx, depth, n.op === '-' ? !neg : neg); return;
+        case 'neg': case 'pct': visit(n.e, ctx, depth, !neg); return;
+        case 'union': n.items.forEach((x) => visit(x, ctx, depth, neg)); return;
+        case 'call': {
+          if (n.fn === 'VLOOKUP' && n.args[1] && n.args[1].k === 'ref' && n.args[1].sheet && wb.sheet(n.args[1].sheet).name === '영어한국사') {
+            const t = n.args[1], a0 = n.args[0];
+            const col = Math.trunc(Number(wb.scalar(n.args[2], ctx)));
+            let kind = '기타';
+            if (a0.k === 'ref' && !a0.sheet) { if (a0.c1 === 10 && a0.r1 === 7) kind = '영어'; else if (a0.c1 === 13 && a0.r1 === 7) kind = '한국사'; else if (SU_COL[a0.c1]) kind = SU_COL[a0.c1]; }
+            const key = [t.r1, t.c1, t.r2, t.c2, col].join(',');
+            if (!found.has(key)) found.set(key, { kind, t, col, neg, arg: a0, ctx });
+          }
+          n.args.forEach((a) => visit(a, ctx, depth, neg)); return;
+        }
+        case 'ref': {
+          const sheet = n.sheet ? wb.sheet(n.sheet).name : ctx.sheet;
+          if (sheet !== sd || (n.r2 - n.r1 + 1) * (n.c2 - n.c1 + 1) > 20) return;
+          for (let r = n.r1; r <= n.r2; r++) for (let c = n.c1; c <= n.c2; c++) {
+            if (SU_COL[c] && SU_ROW[r]) continue; // 학생 성적 칸
+            const f = MODEL.sheets[sd].f[colName(c) + r];
+            if (f) visit(parseF(f), { sheet: sd, r, c }, depth + 1, neg);
+          }
+        }
+      }
+    };
+    const hf = MODEL.sheets[sd].f['H' + info.sr];
+    if (hf) visit(parseF(hf), { sheet: sd, r: info.sr, c: 8 }, 0, false);
+    return [...found.values()].sort((a, b) => (a.kind === '영어' ? 0 : a.kind === '한국사' ? 1 : 2) - (b.kind === '영어' ? 0 : b.kind === '한국사' ? 1 : 2));
+  }
+  function captionAbove(sheet, r1, c1, c2) {
+    const sh = MODEL.sheets[sheet], bits = [];
+    for (let r = Math.max(1, r1 - 2); r < r1; r++) for (let c = c1; c <= c2; c++) { const v = sh.v[colName(c) + r]; if (typeof v === 'string' && v.trim()) bits.push(v.trim()); }
+    return bits.join(' · ');
+  }
+  function lookupTableHtml(sheet, t, col, lookupV, opt) {
+    const keys = [], vals = [];
+    for (let r = t.r1; r <= t.r2; r++) { keys.push(wb.cell(sheet, r, t.c1)); vals.push(wb.cell(sheet, r, t.c1 + col - 1)); }
+    let hit = -1;
+    if (lookupV !== null && lookupV !== undefined && lookupV !== '' && !isErr(lookupV)) {
+      if (opt.exact) hit = keys.findIndex((k) => k === lookupV);
+      else hit = XlEngine.approxIndex((i) => keys[i], keys.length, typeof lookupV === 'string' && !isNaN(+lookupV) ? +lookupV : lookupV);
+    }
+    const idx = keys.map((k, i) => i).filter((i) => typeof keys[i] === 'number');
+    const head = idx.map((i) => {
+      if (opt.grade) return `<td class="${i === hit ? 'hit' : ''}">${fmtV(keys[i])}</td>`;
+      const pos = idx.indexOf(i), nxt = idx[pos + 1];
+      const txt = pos === 0 && keys[i] === 0 && nxt !== undefined ? fmtV(keys[nxt]) + ' 미만' : fmtV(keys[i]) + ' 이상';
+      return `<td class="${i === hit ? 'hit' : ''}">${txt}</td>`;
+    }).join('');
+    const body = idx.map((i) => `<td class="${i === hit ? 'hit' : ''}">${fmtV(vals[i])}</td>`).join('');
+    return `<div class="gridtab"><table><tr><th>${opt.grade ? '등급' : '기록'}</th>${head}</tr><tr><th>${opt.neg ? '감점' : '점수'}</th>${body}</tr></table></div>`;
+  }
+
+  let us = null; // { info, name, sim, base }
+  function evalOut(s, info) {
+    wb.setInputs(buildInputs(s));
+    const o = {};
+    for (const c in COLS) { const v = wb.value('학생상담(' + s.gender + ')', c + info.outRow); o[COLS[c]] = isErr(v) ? null : v; }
+    o.v = judge(o);
+    return o;
+  }
+  function openUniv(idx) {
+    const r = rows.find((x) => x.idx === idx); if (!r) return;
+    const info = rowInfo(st.gender, META.genders[st.gender].outRows[idx]);
+    us = { info, name: r.name, sim: clone(st), base: evalOut(st, info), lastFocus: document.activeElement };
+    $('us').hidden = false; $('usBack').hidden = false;
+    renderUsSide(); renderUsMain();
+    const c = $('usClose'); if (c) c.focus();
+  }
+  function closeUniv() {
+    $('us').hidden = true; $('usBack').hidden = true;
+    const lf = us && us.lastFocus; us = null; recompute();
+    if (lf && lf.focus) try { lf.focus(); } catch (e) { /* 이미 사라진 요소 */ }
+  }
+  const chg = (a, b) => {
+    if (!isNum(a) || !isNum(b) || Math.abs(a - b) < 1e-9) return '';
+    const d = b - a; return ` <span class="chg ${d > 0 ? 'pos' : 'neg'}">${d > 0 ? '▲' : '▼'}${fmt(Math.abs(d))}</span>`;
+  };
+  function suInputsHtml(s) {
+    const row = (area, key, cols, sel) => `<tr><td class="area">${area}</td>${sel || ''}${cols.map((k) => k ? `<td><input data-sk="su.${key}.${k}" inputmode="decimal" value="${numOrStr(s.su[key][k]) !== null ? esc(s.su[key][k]) : ''}" aria-label="${area} ${k}"></td>` : '<td class="na">–</td>').join('')}</tr>`;
+    return `<table class="su"><thead><tr><th>영역</th><th>원점수</th><th>표준</th><th>백분위</th><th>등급</th></tr></thead><tbody>
+      ${row('국어', 'kor', ['raw', 'std', 'pct', 'grade'])}${row('수학', 'math', ['raw', 'std', 'pct', 'grade'])}
+      ${row('영어', 'eng', ['raw', null, null, 'grade'])}${row('탐구1', 't1', ['raw', 'std', 'pct', 'grade'])}
+      ${row('탐구2', 't2', ['raw', 'std', 'pct', 'grade'])}${row('한국사', 'hist', ['raw', null, null, 'grade'])}</tbody></table>`;
+  }
+  function renderUsSide() {
+    const s = us.sim, evs = univEvents(us.info);
+    const evHtml = evs.length ? evs.map((e, i) => {
+      const v = s.silgi[e.name];
+      return `<div class="ev"><label class="nm" for="usev-${i}">${esc(e.name)}</label><input id="usev-${i}" data-sev="${esc(e.name)}" inputmode="decimal" value="${numOrStr(v) !== null ? esc(v) : ''}" autocomplete="off"></div>`;
+    }).join('') : '<p class="hint">이 대학은 실기를 반영하지 않거나 실기 자료가 없습니다.</p>';
+    $('usSide').innerHTML = `<h4>점수 바꿔 보기</h4>
+      <p class="hint">여기서 바꾼 값은 이 화면에서만 계산됩니다. 오른쪽 점수와 판정이 바로 바뀝니다.</p>
+      ${suInputsHtml(s)}
+      <h4>실기 기록</h4>${evHtml}
+      <div class="toolbar" style="margin:0"><button class="btn small" type="button" data-us="reset">원래 성적으로</button><button class="btn small primary" type="button" data-us="apply">학생 성적에 적용</button></div>`;
+  }
+  function renderUsMain() {
+    const info = us.info, cur = evalOut(us.sim, info), base = us.base; // evalOut이 계산 입력을 sim으로 맞춘다
+    const ctxH = { sheet: info.sd, r: info.sr, c: 8 };
+    const X = makeExplainer(info);
+    const r = cur;
+    const note = r.note && r.note !== '.' ? `<span class="note">${esc(r.note)}</span>` : '';
+    $('usHead').innerHTML = `<div><h3 id="usTitle"><span class="gun">${fmtV(r.gun)}</span>${esc(us.name)}</h3>
+      <div class="facts2">모집 ${fmtV(r.m25)} · ${fmtV(r.m26)} · ${fmtV(r.m27)} (25·26·27) &nbsp; 경쟁률 ${fmtV(r.c25)} · ${fmtV(r.c26)} &nbsp; 충원 ${fmtV(r.f26)} · ${fmtV(r.f25)} · ${fmtV(r.f24)}${note}</div></div>
+      <div class="acts"><button class="btn small" type="button" id="usClose" data-us="close">닫기</button></div>`;
+    const cell = (k, v, was, extra) => `<div><div class="k">${k}</div><div class="v">${v}${extra || ''}</div>${was !== undefined ? `<div class="was">${was}</div>` : ''}</div>`;
+    const changed = (a, b) => isNum(a) && isNum(b) && Math.abs(a - b) > 1e-9;
+    const wasTxt = (a, b) => (changed(a, b) ? '바꾸기 전 ' + fmt(a) : '');
+    let html = `<div class="delta">
+      ${cell('판정', `<span class="pill ${r.v.k}">${r.v.label}</span>`, base.v.k !== r.v.k ? '바꾸기 전 ' + base.v.label : '')}
+      ${cell('내 총점', fmt(r.total), wasTxt(base.total, r.total), chg(base.total, r.total))}
+      ${cell('수능 점수', fmt(r.my), wasTxt(base.my, r.my), chg(base.my, r.my))}
+      ${cell('실기 점수', fmt(r.silgi), wasTxt(base.silgi, r.silgi), chg(base.silgi, r.silgi))}
+      ${cell('내신', fmt(r.naesin))}
+      ${cell('안정점수', fmt(r.safe), '기대점수 ' + fmt(r.hope))}
+    </div>`;
+    // 1. 수능 성적 산출
+    const hf = info.sr ? MODEL.sheets[info.sd].f['H' + info.sr] : null;
+    html += `<section class="us-sec"><h4>수능 성적 산출</h4>`;
+    if (hf) {
+      html += `<div class="formula">${X.render(hf, ctxH)}</div>
+        <div class="total-line"><span>수능 환산 점수</span><b>${fmt(r.my, 2)}</b>${chg(base.my, r.my)}
+        <span class="muted">합격 평균 ${fmt(r.avg)} · 과부족 ${signed(isNum(r.my) && isNum(r.avg) ? r.my - r.avg : null)} · 실기상위권 지원점수 ${fmt(r.top)}</span></div>
+        <div class="cap">엑셀 ${esc(info.sd)} 시트 H${info.sr} 셀 수식을 풀어 쓴 것입니다. 파란 칸은 표에서 찾아온 값입니다.</div>`;
+    } else html += '<p class="hint">이 대학의 수능 산출식을 찾지 못했습니다.</p>';
+    html += `</section>`;
+    // 2. 영어·한국사 등급별 점수표
+    const gts = gradeTables(info);
+    html += `<section class="us-sec"><h4>영어 · 한국사 등급별 점수표</h4>`;
+    if (gts.length) {
+      html += '<div class="lktables">' + gts.map((t) => {
+        const lv = X.valueOf(t.arg, t.ctx);
+        const cap = captionAbove('영어한국사', t.t.r1, t.t.c1, t.t.c1 + t.col - 1);
+        const title = t.kind === '기타' || !['영어', '한국사'].includes(t.kind) ? t.kind + ' 등급표' : t.kind;
+        return `<div class="ltab"><div class="t">${esc(title)}${t.neg ? ' (감점)' : ''}<span>${esc(cap)}</span></div>${lookupTableHtml('영어한국사', t.t, t.col, lv, { grade: true, neg: t.neg })}</div>`;
+      }).join('') + '</div><div class="cap">색칠된 칸이 이 학생의 등급입니다.</div>';
+    } else html += '<p class="hint">수능 산출식에서 영어·한국사 등급표를 따로 쓰지 않습니다(점수 직접 반영 또는 다른 방식).</p>';
+    html += `</section>`;
+    // 3. 실기 배점표
+    html += `<section class="us-sec"><h4>실기 배점표</h4>`;
+    const evs = univEvents(info);
+    if (!evs.length) html += '<p class="hint">이 대학은 실기를 반영하지 않거나 엑셀에 실기 배점 자료가 없습니다.</p>';
+    else {
+      const ctxCol = (rr) => ({ sheet: info.ex, r: rr, c: info.silgiCol });
+      html += evs.map((e) => {
+        const pts = wb.cell(info.ex, e.r, info.silgiCol);
+        const rec = us.sim.silgi[e.name];
+        const baseRec = st.silgi[e.name];
+        const ast = parseF(e.f);
+        let vl = null, mult = '';
+        if (ast.k === 'call' && ast.fn === 'VLOOKUP') vl = ast;
+        else if (ast.k === 'bin' && ast.op === '*' && ast.l.k === 'call' && ast.l.fn === 'VLOOKUP') { vl = ast.l; mult = ' × ' + fmt(X.valueOf(ast.r, ctxCol(e.r)), 4); }
+        let body;
+        if (vl && (vl.args[1].k === 'ref' || vl.args[1].k === 'name')) {
+          let t = vl.args[1], tsheet;
+          if (t.k === 'name') { const rg = wb.ev(t, ctxCol(e.r)); t = { r1: rg.r1, c1: rg.c1, r2: rg.r2, c2: rg.c2 }; tsheet = rg.sheet; } else tsheet = wb.sheet(t.sheet || info.ex).name;
+          const col = Math.trunc(Number(X.valueOf(vl.args[2], ctxCol(e.r))));
+          const lv = X.valueOf(vl.args[0], ctxCol(e.r));
+          const hasRec = numOrStr(rec) !== null;
+          const cap = captionAbove(tsheet, t.r1, t.c1, t.c1 + col - 1);
+          body = (cap ? `<div class="cap">${esc(cap)} · 엑셀 ${esc(tsheet)}!${colName(t.c1)}${t.r1}:${colName(t.c1 + col - 1)}${t.r2}${mult ? ' · 배점' + mult : ''}</div>` : '') +
+            lookupTableHtml(tsheet, t, col, hasRec ? lv : null, { exact: vl.args[3] && vl.args[3].k === 'lit' && vl.args[3].v === false });
+        } else {
+          body = `<div class="formula">${X.render(e.f, ctxCol(e.r))}</div>`;
+        }
+        const recTxt = numOrStr(rec) !== null ? '기록 ' + esc(rec) + (numOrStr(baseRec) !== numOrStr(rec) ? ` <span class="muted">(원래 ${numOrStr(baseRec) !== null ? esc(baseRec) : '없음'})</span>` : '') : '기록 없음';
+        return `<div class="evcard"><div class="top"><b>${esc(e.name)}</b><span class="rec">${recTxt}</span><span class="pts">${fmtV(pts)}점</span></div>${body}</div>`;
+      }).join('');
+      const tf = MODEL.sheets[info.ex].f[colName(info.silgiCol) + 3];
+      const mx = wb.cell(info.ex, 4, info.silgiCol);
+      if (tf) html += `<div class="formula"><b>실기 점수 계산</b> &nbsp;${X.render(tf, { sheet: info.ex, r: 3, c: info.silgiCol })}</div>`;
+      html += `<div class="total-line"><span>실기 점수</span><b>${fmt(r.silgi, 2)}</b>${chg(base.silgi, r.silgi)}${isNum(mx) ? `<span class="muted">만점 ${fmt(mx)}</span>` : ''}</div>
+        <div class="cap">기록 칸의 색칠된 부분이 이 학생 기록이 해당하는 구간입니다.</div>`;
+    }
+    html += `</section>`;
+    // 4. 내신
+    if (isNum(r.naesin) && r.naesin !== 0) html += `<section class="us-sec"><h4>내신</h4><div>학생부 환산점수 <b class="num">${fmt(r.naesin, 2)}</b> <span class="muted">(내신 탭에 입력한 값)</span></div></section>`;
+    $('usMain').innerHTML = html;
+    // 긴 배점표는 학생 기록 칸이 보이도록 가로 위치를 맞춘다
+    document.querySelectorAll('#usMain .gridtab').forEach((g) => { const h = g.querySelector('td.hit'); if (h) g.scrollLeft = Math.max(0, h.offsetLeft - g.clientWidth / 2 + h.offsetWidth / 2); });
+  }
+  let usTimer = null;
+  $('us').addEventListener('input', (e) => {
+    const el = e.target; if (!us) return;
+    if (el.dataset.sk) setPath(us.sim, el.dataset.sk, el.value);
+    else if (el.dataset.sev) { if (el.value.trim() === '') delete us.sim.silgi[el.dataset.sev]; else us.sim.silgi[el.dataset.sev] = el.value; }
+    else return;
+    clearTimeout(usTimer); usTimer = setTimeout(() => { if (us) renderUsMain(); }, 160);
+  });
+  $('us').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-us]'); if (!b || !us) return;
+    if (b.dataset.us === 'close') closeUniv();
+    else if (b.dataset.us === 'reset') { us.sim = clone(st); renderUsSide(); renderUsMain(); toast('원래 성적으로 되돌렸습니다.'); }
+    else if (b.dataset.us === 'apply') {
+      st.su = clone(us.sim.su); st.silgi = clone(us.sim.silgi);
+      markDirty(); bindForm();
+      us.base = evalOut(st, us.info); renderUsMain();
+      toast('바꾼 점수를 학생 성적에 적용했습니다. 저장을 눌러야 기록에 남습니다.');
+    }
+  });
+  $('usBack').addEventListener('click', closeUniv);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && us) closeUniv(); });
+  $('resBody').addEventListener('click', (e) => { const b = e.target.closest('[data-uidx]'); if (b) openUniv(+b.dataset.uidx); });
+
   // ---------- 기록 서랍 ----------
   let dtab = 'mine', allRecs = null, allLoading = false, confirmDel = null, recQ = '';
   function openDrawer() { $('drawer').hidden = false; $('drawerBack').hidden = false; renderDrawer(); $('btnCloseDrawer').focus(); }
@@ -1352,7 +1761,7 @@ td.total b { font-size: 14.5px; }
   else { st = Object.assign(blankStudent(), clone(META.example)); isExample = true; }
   bindForm(); recompute(); renderSaveState();
   initStore();
-  window.__app = { compute: () => compute(st), get st() { return st; }, set st(v) { st = v; }, recompute, rows: () => rows, loadStudent };
+  window.__app = { compute: () => compute(st), get st() { return st; }, set st(v) { st = v; }, recompute, rows: () => rows, loadStudent, openUniv, closeUniv, get us() { return us; }, renderUsMain };
 })();
 </script>
 </body></html>
