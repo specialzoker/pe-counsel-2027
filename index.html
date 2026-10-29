@@ -273,6 +273,34 @@ td.total b { font-size: 14.5px; }
 .evcard .top .pts { margin-left: auto; font-family: var(--font-num); font-size: 15px; font-weight: 600; }
 .evcard .top .rec { font-family: var(--font-num); color: var(--muted); font-size: 12.5px; }
 .chg { font-family: var(--font-num); font-size: 12px; font-weight: 600; }
+.gauge-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 12px; display: grid; gap: 10px; }
+.gauge-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.pill.big { font-size: 20px; padding: 4px 18px; }
+.gmsg { font-size: 15px; }
+.gmsg b { font-family: var(--font-num); }
+.vchange { margin-left: auto; display: inline-flex; gap: 6px; align-items: center; border: 2px solid var(--accent); border-radius: 999px; padding: 3px 6px; }
+.vchange .arrow { font-weight: 700; color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .vchange.flash { animation: vflash 1.1s ease-out; }
+  @keyframes vflash { 0% { transform: scale(1.18); box-shadow: 0 0 0 8px var(--accent-soft); } 100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; } }
+  .gauge .mark.now { transition: left .35s ease; }
+}
+.gauge { position: relative; height: 34px; margin: 26px 0 24px; border-radius: 6px; }
+.gauge .zone { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; overflow: hidden; }
+.gauge .zone.reach { background: var(--reach-bg); color: var(--reach); border-radius: 6px 0 0 6px; }
+.gauge .zone.hope { background: var(--hope-bg); color: var(--hope); }
+.gauge .zone.safe { background: var(--safe-bg); color: var(--safe); border-radius: 0 6px 6px 0; }
+.gauge .tick { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 2px dashed var(--muted); }
+.gauge .tick span { position: absolute; top: 100%; margin-top: 4px; transform: translateX(-50%); white-space: nowrap; font-size: 11.5px; color: var(--muted); font-family: var(--font-num); }
+.gauge .tick span.r { transform: translateX(calc(-100% - 4px)); }
+.gauge .tick span.l { transform: translateX(4px); }
+.gauge .mark { position: absolute; top: -6px; bottom: -6px; width: 4px; margin-left: -2px; border-radius: 2px; background: var(--fg); }
+.gauge .mark.was { background: var(--muted); opacity: .45; width: 3px; }
+.gauge .mark.now span { position: absolute; bottom: 100%; margin-bottom: 3px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 12px; background: var(--fg); color: var(--surface); padding: 1px 7px; border-radius: 4px; }
+.gauge .mark.now span.l { left: 0; transform: none; }
+.gauge .mark.now span.r { left: auto; right: 0; transform: none; }
+.gauge .mark.now span b { font-family: var(--font-num); }
+.miss { color: var(--reach); font-weight: 600; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--surface); padding: 9px 16px; border-radius: 8px; font-size: 13px; z-index: 60; max-width: calc(100% - 32px); }
 @media (prefers-reduced-motion: no-preference) { .toast { animation: rise .18s ease-out; } @keyframes rise { from { opacity: 0; transform: translate(-50%, 6px); } } }
 </style>
@@ -299,6 +327,7 @@ td.total b { font-size: 14.5px; }
         <li>백분위 변환표준점수 반영 대학은 2026학년도 대학별 변환표준점수를 쓴 점수입니다(사탐·과탐 가산점 미부여, 탐구 변환표준점수는 사탐 기준).</li>
         <li>수학 미적분·기하와 과탐 가산점은 반영되지 않은 점수입니다.</li>
         <li>안정점수는 최초합격 유력, 기대점수는 충원합격 가능을 뜻합니다.</li>
+        <li>기록을 입력하지 않은 실기 종목은 0점으로 계산합니다. 엑셀은 빈 칸을 기록 0으로 보고 배점표를 찾기 때문에 달리기처럼 기록이 작을수록 좋은 종목은 만점이 나옵니다. 이 부분만 엑셀과 다릅니다.</li>
       </ul>
     </details>
   </div>
@@ -996,7 +1025,28 @@ td.total b { font-size: 14.5px; }
     const ns = { F2: KEY };
     for (const r of META.genders[g].naesin) { const v = n(s.naesin[r.univ]); if (v !== null) ns['F' + r.row] = v; }
     // 대학별점수 시트가 '상담(남)'의 표준점수 만점을 참조하므로 두 상담 시트 모두 이 학생을 가리키게 한다
-    return { '성적': sj, '학생상담(남)': { J2: KEY }, '학생상담(여)': { J2: KEY }, ['개인실기(' + g + ')']: sg, ['내신(' + g + ')']: ns };
+    const out = { '성적': sj, '학생상담(남)': { J2: KEY }, '학생상담(여)': { J2: KEY }, ['개인실기(' + g + ')']: sg, ['내신(' + g + ')']: ns };
+    // 엑셀은 빈 기록을 0으로 보고 배점표를 찾아 달리기 등에서 최고점이 나온다. 기록 없는 종목은 대학별 종목 점수를 0점으로 고정한다.
+    if (BLANK_ZERO) {
+      const ex = {};
+      for (const [name, cells] of Object.entries(exScoreCells(g))) if (n(s.silgi[name]) === null) cells.forEach((a) => { ex[a] = 0; });
+      out['실기환산(' + g + ')'] = ex;
+    }
+    return out;
+  }
+  let BLANK_ZERO = true;
+  const exCellCache = {};
+  // 실기환산 시트에서 종목별 대학 점수 칸(C열 이후 수식 칸) 목록
+  function exScoreCells(g) {
+    if (exCellCache[g]) return exCellCache[g];
+    const sh = MODEL.sheets['실기환산(' + g + ')'], map = {};
+    for (const a of Object.keys(sh.f)) {
+      const m = /^([A-Z]+)(\d+)$/.exec(a); const r = +m[2];
+      if (r < 5 || XlEngine.colNum(m[1]) < 3) continue;
+      const name = exEventName(g, r); if (!name) continue;
+      (map[name] = map[name] || []).push(a);
+    }
+    return (exCellCache[g] = map);
   }
   const COLS = { A: 'gun', B: 'm25', C: 'm26', D: 'm27', E: 'c25', F: 'c26', G: 'name', H: 'my', I: 'avg', J: 'top', K: 'diff', L: 'naesin', M: 'silgi', N: 'total', O: 'safe', P: 'hope', Q: 'f26', R: 'f25', S: 'f24', T: 'note' };
   function compute(s) {
@@ -1098,7 +1148,7 @@ td.total b { font-size: 14.5px; }
         <td data-label="안정 / 기대">${fmt(r.safe)}<span class="sub">${fmt(r.hope)}</span></td>
         <td data-label="수능 내점수 / 합격평균">${fmt(r.my)}<span class="sub">${fmt(r.avg)} · <span class="${dcls}">${signed(r.diff)}</span></span></td>
         <td data-label="실기상위권 지원점수">${fmt(r.top)}${topOk ? '<br><span class="tag">지원 가능</span>' : ''}</td>
-        <td data-label="내신 / 실기">${fmt(r.naesin)}<span class="sub">${fmt(r.silgi)}</span></td>
+        <td data-label="내신 / 실기">${fmt(r.naesin)}<span class="sub">${fmt(r.silgi)}</span>${missCount(r.idx) ? `<span class="sub miss" title="기록을 입력하지 않은 종목은 0점으로 계산합니다">미입력 ${missCount(r.idx)}종목</span>` : ''}</td>
         <td class="facts" data-label="입시 지표">
           <span><i>모집</i>${fmt(r.m25)} · <span class="${trend(r.m25, r.m26)}">${fmt(r.m26)}</span> · <span class="${trend(r.m26, r.m27)}">${fmt(r.m27)}</span></span><br>
           <span><i>경쟁</i>${fmt(r.c25, 1)} · <span class="${trend(r.c25, r.c26)}">${fmt(r.c26, 1)}</span></span><br>
@@ -1299,6 +1349,14 @@ td.total b { font-size: 14.5px; }
         if (!$('drawer').hidden && dtab === 'mine') renderDrawer();
       }, () => { mine = []; });
     }
+  }
+
+  // 판정표 행별로 이 대학이 보는 실기 종목 중 기록이 비어 있는 종목 수
+  const univEvCache = {};
+  function missCount(idx) {
+    const k = st.gender + idx;
+    if (!univEvCache[k]) univEvCache[k] = univEvents(rowInfo(st.gender, META.genders[st.gender].outRows[idx])).map((e) => e.name);
+    return univEvCache[k].filter((nm) => numOrStr(st.silgi[nm]) === null).length;
   }
 
   // ---------- 대학 개별 시트 ----------
@@ -1535,6 +1593,40 @@ td.total b { font-size: 14.5px; }
       <h4>실기 기록</h4>${evHtml}
       <div class="toolbar" style="margin:0"><button class="btn small" type="button" data-us="reset">원래 성적으로</button><button class="btn small primary" type="button" data-us="apply">학생 성적에 적용</button></div>`;
   }
+  // 판정 게이지: 도전·기대·안정 구간 위에 내 총점(과 바꾸기 전 총점) 위치를 표시
+  function gaugeHtml(base, r, flash) {
+    const t = r.total, h = r.hope, s = r.safe;
+    const change = base.v.k !== r.v.k
+      ? `<span class="vchange${flash ? ' flash' : ''}"><span class="pill ${base.v.k}">${base.v.label}</span><span class="arrow">→</span><span class="pill ${r.v.k}">${r.v.label}</span></span>` : '';
+    if (r.v.k === 'none' || !isNum(t)) {
+      return `<div class="gauge-box"><div class="gauge-head"><span class="pill big none">판정 불가</span><span class="gmsg">입결 자료가 없거나 성적이 부족해 판정할 수 없습니다.</span>${change}</div></div>`;
+    }
+    let msg;
+    if (r.v.k === 'safe') msg = `안정점수보다 <b>${fmt(t - s)}점</b> 높습니다`;
+    else if (r.v.k === 'hope') msg = `기대점수는 넘었고, 안정점수까지 <b>${fmt(s - t)}점</b> 남았습니다`;
+    else msg = `기대점수까지 <b>${fmt(h - t)}점</b> 부족합니다`;
+    const pts = [t, h, s].concat(isNum(base.total) ? [base.total] : []);
+    let lo = Math.min(...pts), hi = Math.max(...pts);
+    const pad = Math.max((hi - lo) * 0.18, 8);
+    lo -= pad; hi += pad;
+    const pos = (v) => Math.min(100, Math.max(0, ((v - lo) / (hi - lo)) * 100));
+    const ph = pos(h), ps = pos(s), pt = pos(t);
+    const moved = isNum(base.total) && Math.abs(base.total - t) > 1e-9;
+    const markAlign = pt < 12 ? 'l' : pt > 88 ? 'r' : '';
+    return `<div class="gauge-box">
+      <div class="gauge-head"><span class="pill big ${r.v.k}">${r.v.label}</span><span class="gmsg">${msg}</span>${change}</div>
+      <div class="gauge" role="img" aria-label="내 총점 ${fmt(t)}, 기대점수 ${fmt(h)}, 안정점수 ${fmt(s)}">
+        <div class="zone reach" style="left:0;width:${ph}%"><span>도전</span></div>
+        <div class="zone hope" style="left:${ph}%;width:${ps - ph}%"><span>${ps - ph > 6 ? '기대' : ''}</span></div>
+        <div class="zone safe" style="left:${ps}%;width:${100 - ps}%"><span>안정</span></div>
+        ${moved ? `<div class="mark was" style="left:${pos(base.total)}%" title="바꾸기 전 ${fmt(base.total)}"></div>` : ''}
+        <div class="mark now ${r.v.k}" style="left:${pt}%"><span class="${markAlign}">내 총점 <b>${fmt(t)}</b></span></div>
+        <div class="tick" style="left:${ph}%"><span class="${ps - ph < 18 ? 'r' : ''}">기대 ${fmt(h)}</span></div>
+        <div class="tick" style="left:${ps}%"><span class="${ps - ph < 18 ? 'l' : ''}">안정 ${fmt(s)}</span></div>
+      </div>
+      ${moved ? `<div class="cap">흐린 표시는 바꾸기 전 총점(${fmt(base.total)})입니다.</div>` : ''}
+    </div>`;
+  }
   function renderUsMain() {
     const info = us.info, cur = evalOut(us.sim, info), base = us.base; // evalOut이 계산 입력을 sim으로 맞춘다
     const ctxH = { sheet: info.sd, r: info.sr, c: 8 };
@@ -1547,8 +1639,9 @@ td.total b { font-size: 14.5px; }
     const cell = (k, v, was, extra) => `<div><div class="k">${k}</div><div class="v">${v}${extra || ''}</div>${was !== undefined ? `<div class="was">${was}</div>` : ''}</div>`;
     const changed = (a, b) => isNum(a) && isNum(b) && Math.abs(a - b) > 1e-9;
     const wasTxt = (a, b) => (changed(a, b) ? '바꾸기 전 ' + fmt(a) : '');
-    let html = `<div class="delta">
-      ${cell('판정', `<span class="pill ${r.v.k}">${r.v.label}</span>`, base.v.k !== r.v.k ? '바꾸기 전 ' + base.v.label : '')}
+    const flash = us.lastK !== undefined && us.lastK !== r.v.k;
+    us.lastK = r.v.k;
+    let html = gaugeHtml(base, r, flash) + `<div class="delta">
       ${cell('내 총점', fmt(r.total), wasTxt(base.total, r.total), chg(base.total, r.total))}
       ${cell('수능 점수', fmt(r.my), wasTxt(base.my, r.my), chg(base.my, r.my))}
       ${cell('실기 점수', fmt(r.silgi), wasTxt(base.silgi, r.silgi), chg(base.silgi, r.silgi))}
@@ -1604,7 +1697,7 @@ td.total b { font-size: 14.5px; }
         } else {
           body = `<div class="formula">${X.render(e.f, ctxCol(e.r))}</div>`;
         }
-        const recTxt = numOrStr(rec) !== null ? '기록 ' + esc(rec) + (numOrStr(baseRec) !== numOrStr(rec) ? ` <span class="muted">(원래 ${numOrStr(baseRec) !== null ? esc(baseRec) : '없음'})</span>` : '') : '기록 없음';
+        const recTxt = numOrStr(rec) !== null ? '기록 ' + esc(rec) + (numOrStr(baseRec) !== numOrStr(rec) ? ` <span class="muted">(원래 ${numOrStr(baseRec) !== null ? esc(baseRec) : '없음'})</span>` : '') : `<span class="miss">기록 없음 · 0점 처리</span>`;
         return `<div class="evcard"><div class="top"><b>${esc(e.name)}</b><span class="rec">${recTxt}</span><span class="pts">${fmtV(pts)}점</span></div>${body}</div>`;
       }).join('');
       const tf = MODEL.sheets[info.ex].f[colName(info.silgiCol) + 3];
@@ -1761,7 +1854,7 @@ td.total b { font-size: 14.5px; }
   else { st = Object.assign(blankStudent(), clone(META.example)); isExample = true; }
   bindForm(); recompute(); renderSaveState();
   initStore();
-  window.__app = { compute: () => compute(st), get st() { return st; }, set st(v) { st = v; }, recompute, rows: () => rows, loadStudent, openUniv, closeUniv, get us() { return us; }, renderUsMain };
+  window.__app = { compute: () => compute(st), get st() { return st; }, set st(v) { st = v; }, recompute, rows: () => rows, setBlankZero(v) { BLANK_ZERO = v; }, loadStudent, openUniv, closeUniv, get us() { return us; }, renderUsMain };
 })();
 </script>
 </body></html>
