@@ -420,7 +420,7 @@ table.res .pill { font-size: 13.5px; }
         <select class="tx" id="fSort" aria-label="정렬">
           <option value="">기본 순서</option>
           <option value="margin">총점 여유 큰 순</option>
-          <option value="su">수능 과부족 큰 순</option>
+          <option value="su">합격 평균보다 높은 순</option>
           <option value="name">대학명 순</option>
         </select>
       </div>
@@ -429,7 +429,7 @@ table.res .pill { font-size: 13.5px; }
           <thead><tr>
             <th class="l">판정</th><th class="l">군 · 대학 학과</th>
             <th>내 총점</th><th>안정<br>기대</th>
-            <th>수능 내점수<br>합격평균 · 과부족</th><th>실기상위권<br>지원점수</th>
+            <th>수능 내점수<br>합격평균 · 차이</th><th>실기상위권<br>지원점수</th>
             <th>내신<br>실기</th>
             <th class="l">모집 25·26·27<br>경쟁률 25·26 · 충원 24·25·26</th>
           </tr></thead>
@@ -1603,6 +1603,11 @@ table.res .pill { font-size: 13.5px; }
       <h4>실기 기록</h4>${evHtml}
       <div class="toolbar" style="margin:0"><button class="btn small" type="button" data-us="reset">원래 성적으로</button><button class="btn small primary" type="button" data-us="apply">학생 성적에 적용</button></div>`;
   }
+  function avgDiffTxt(d) {
+    if (!isNum(d)) return '평균과 비교 불가';
+    if (Math.abs(d) < 0.05) return '평균과 같음';
+    return `<span class="${d > 0 ? 'pos' : 'neg'}">평균보다 ${fmt(Math.abs(d))}점 ${d > 0 ? '높음' : '낮음'}</span>`;
+  }
   // 판정 게이지: 도전·기대·안정 구간 위에 내 총점(과 바꾸기 전 총점) 위치를 표시
   function gaugeHtml(base, r, flash) {
     const t = r.total, h = r.hope, s = r.safe;
@@ -1664,7 +1669,7 @@ table.res .pill { font-size: 13.5px; }
     if (hf) {
       html += `<div class="formula">${X.render(hf, ctxH)}</div>
         <div class="total-line"><span>수능 환산 점수</span><b>${fmt(r.my, 2)}</b>${chg(base.my, r.my)}
-        <span class="muted">합격 평균 ${fmt(r.avg)} · 과부족 ${signed(isNum(r.my) && isNum(r.avg) ? r.my - r.avg : null)} · 실기상위권 지원점수 ${fmt(r.top)}</span></div>
+        <span class="muted">합격 평균 ${fmt(r.avg)} · ${avgDiffTxt(isNum(r.my) && isNum(r.avg) ? r.my - r.avg : null)} · 실기상위권 지원점수 ${fmt(r.top)}</span></div>
         <div class="cap">파란 칸은 등급표·변환표준점수표에서 찾아온 값입니다.</div>`;
     } else html += '<p class="hint">이 대학의 수능 산출식을 찾지 못했습니다.</p>';
     html += `</section>`;
