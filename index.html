@@ -226,7 +226,9 @@ td.total b { font-size: 14.5px; }
 .us-head { background: var(--surface); border-bottom: 1px solid var(--line); padding: 14px 18px; display: flex; gap: 10px 16px; align-items: flex-start; flex-wrap: wrap; }
 .us-head h3 { margin: 0; font-size: 19px; display: flex; gap: 8px; align-items: center; }
 .us-head .facts2 { font-size: 12.5px; color: var(--muted); margin-top: 4px; font-family: var(--font-num); }
-.us-head .facts2 .note { font-family: var(--font-body); display: block; }
+.us-head .facts2 { display: flex; flex-wrap: wrap; gap: 2px 18px; }
+.us-head .facts2 .yr { font-family: var(--font-body); font-size: 11.5px; }
+.us-head .facts2 .note { font-family: var(--font-body); display: block; flex-basis: 100%; }
 .us-head .acts { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
 .us-scroll { overflow: auto; min-height: 0; flex: 1; }
 .us-grid { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; padding: 16px 18px 28px; align-items: start; }
@@ -426,7 +428,7 @@ td.total b { font-size: 14.5px; }
             <th>내 총점</th><th>안정<br>기대</th>
             <th>수능 내점수<br>합격평균 · 과부족</th><th>실기상위권<br>지원점수</th>
             <th>내신<br>실기</th>
-            <th class="l">모집 25·26·27<br>경쟁률 25·26 · 충원 26·25·24</th>
+            <th class="l">모집 25·26·27<br>경쟁률 25·26 · 충원 24·25·26</th>
           </tr></thead>
           <tbody id="resBody"></tbody>
         </table>
@@ -1161,7 +1163,7 @@ td.total b { font-size: 14.5px; }
         <td class="facts" data-label="입시 지표">
           <span><i>모집</i>${fmt(r.m25)} · <span class="${trend(r.m25, r.m26)}">${fmt(r.m26)}</span> · <span class="${trend(r.m26, r.m27)}">${fmt(r.m27)}</span></span><br>
           <span><i>경쟁</i>${fmt(r.c25, 1)} · <span class="${trend(r.c25, r.c26)}">${fmt(r.c26, 1)}</span></span><br>
-          <span><i>충원</i>${fmt(r.f26)} · ${fmt(r.f25)} · ${fmt(r.f24)}</span></td>
+          <span><i>충원</i>${fmt(r.f24)} · ${fmt(r.f25)} · ${fmt(r.f26)}</span></td>
       </tr>`;
     }).join('');
   }
@@ -1639,7 +1641,7 @@ td.total b { font-size: 14.5px; }
     const r = cur;
     const note = r.note && r.note !== '.' ? `<span class="note">${esc(r.note)}</span>` : '';
     $('usHead').innerHTML = `<div><h3 id="usTitle"><span class="gun">${fmtV(r.gun)}</span>${esc(us.name)}</h3>
-      <div class="facts2">모집 ${fmtV(r.m25)} · ${fmtV(r.m26)} · ${fmtV(r.m27)} (25·26·27) &nbsp; 경쟁률 ${fmtV(r.c25)} · ${fmtV(r.c26)} &nbsp; 충원 ${fmtV(r.f26)} · ${fmtV(r.f25)} · ${fmtV(r.f24)}${note}</div></div>
+      <div class="facts2"><span>모집 ${fmtV(r.m25)} / ${fmtV(r.m26)} / ${fmtV(r.m27)} <span class="yr">(25·26·27)</span></span><span>경쟁률 ${fmtV(r.c25)} / ${fmtV(r.c26)} <span class="yr">(25·26)</span></span><span>충원 ${fmtV(r.f24)} / ${fmtV(r.f25)} / ${fmtV(r.f26)} <span class="yr">(24·25·26)</span></span>${note}</div></div>
       <div class="acts"><button class="btn small" type="button" id="usClose" data-us="close">닫기</button></div>`;
     const cell = (k, v, was, extra) => `<div><div class="k">${k}</div><div class="v">${v}${extra || ''}</div>${was !== undefined ? `<div class="was">${was}</div>` : ''}</div>`;
     const changed = (a, b) => isNum(a) && isNum(b) && Math.abs(a - b) > 1e-9;
