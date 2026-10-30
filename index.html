@@ -387,7 +387,7 @@ td.total b { font-size: 14.5px; }
         <div class="evlist" id="evlist"></div>
       </div>
       <div class="tabbody" id="pane-naesin" role="tabpanel" aria-labelledby="tab-naesin" hidden>
-        <p class="hint">내신을 반영하는 대학의 학생부 환산점수를 입력하세요(엑셀 내신 시트와 같습니다).</p>
+        <p class="hint">내신을 반영하는 대학의 학생부 환산점수를 입력하세요.</p>
         <div class="toolbar">
           <input class="tx" id="naesinSearch" placeholder="대학 검색" aria-label="대학 검색">
           <label class="chk"><input type="checkbox" id="naesinAll"> 만점 미기재 대학도 보기</label>
@@ -413,7 +413,7 @@ td.total b { font-size: 14.5px; }
           <button type="button" data-gun="" aria-pressed="true">전체</button><button type="button" data-gun="가" aria-pressed="false">가군</button><button type="button" data-gun="나" aria-pressed="false">나군</button><button type="button" data-gun="다" aria-pressed="false">다군</button>
         </div>
         <select class="tx" id="fSort" aria-label="정렬">
-          <option value="">엑셀 순서</option>
+          <option value="">기본 순서</option>
           <option value="margin">총점 여유 큰 순</option>
           <option value="su">수능 과부족 큰 순</option>
           <option value="name">대학명 순</option>
@@ -1421,7 +1421,7 @@ td.total b { font-size: 14.5px; }
       }
       if (sheet === ex) { const n = exEventName(info.g, r); return c === 2 ? (n || '기록') + ' 기록' : (n || '종목') + ' 점수'; }
       const near = strNear(sheet, r, c);
-      return (near ? near + ' ' : '') + (sheet === sd ? '계산값' : sheet + '!' + colName(c) + r);
+      return (near ? near + ' ' : '') + '계산값';
     }
     function valueOf(ast, ctx) {
       try { return wb.deref(wb.ev(ast, ctx), ctx); } catch (e) { if (isErr(e)) return e; throw e; }
@@ -1439,7 +1439,7 @@ td.total b { font-size: 14.5px; }
         const used = cells.filter(([r, c]) => { const v = wb.cell(sheet, r, c); return typeof v === 'number' && v !== 0; });
         return '[' + (used.length ? used.map(([r, c]) => cellChip(sheet, r, c)).join(' ') : '<span class="muted">점수 없음</span>') + ']';
       }
-      if (cells.length > 12) return `<span class="chip"><i>${esc(sheet)}!${colName(n.c1)}${n.r1}:${colName(n.c2)}${n.r2}</i></span>`;
+      if (cells.length > 12) return `<span class="chip"><i>값 ${cells.length}개</i></span>`;
       return '[' + cells.map(([r, c]) => cellChip(sheet, r, c)).join(' ') + ']';
     }
     const PREC = { '=': 0, '<>': 0, '<': 0, '>': 0, '<=': 0, '>=': 0, '&': 1, '+': 2, '-': 2, '*': 3, '/': 3, '^': 4 };
@@ -1534,11 +1534,6 @@ td.total b { font-size: 14.5px; }
     if (hf) visit(parseF(hf), { sheet: sd, r: info.sr, c: 8 }, 0, false);
     return [...found.values()].sort((a, b) => (a.kind === '영어' ? 0 : a.kind === '한국사' ? 1 : 2) - (b.kind === '영어' ? 0 : b.kind === '한국사' ? 1 : 2));
   }
-  function captionAbove(sheet, r1, c1, c2) {
-    const sh = MODEL.sheets[sheet], bits = [];
-    for (let r = Math.max(1, r1 - 2); r < r1; r++) for (let c = c1; c <= c2; c++) { const v = sh.v[colName(c) + r]; if (typeof v === 'string' && v.trim()) bits.push(v.trim()); }
-    return bits.join(' · ');
-  }
   function lookupTableHtml(sheet, t, col, lookupV, opt) {
     const keys = [], vals = [];
     for (let r = t.r1; r <= t.r2; r++) { keys.push(wb.cell(sheet, r, t.c1)); vals.push(wb.cell(sheet, r, t.c1 + col - 1)); }
@@ -1596,7 +1591,7 @@ td.total b { font-size: 14.5px; }
     const evHtml = evs.length ? evs.map((e, i) => {
       const v = s.silgi[e.name];
       return `<div class="ev"><label class="nm" for="usev-${i}">${esc(e.name)}</label><input id="usev-${i}" data-sev="${esc(e.name)}" inputmode="decimal" value="${numOrStr(v) !== null ? esc(v) : ''}" autocomplete="off"></div>`;
-    }).join('') : '<p class="hint">이 대학은 실기를 반영하지 않거나 실기 자료가 없습니다.</p>';
+    }).join('') : '<p class="hint">이 대학은 실기 배점 자료가 없습니다.</p>';
     $('usSide').innerHTML = `<h4>점수 바꿔 보기</h4>
       <p class="hint">여기서 바꾼 값은 이 화면에서만 계산됩니다. 오른쪽 점수와 판정이 바로 바뀝니다.</p>
       ${suInputsHtml(s)}
@@ -1665,7 +1660,7 @@ td.total b { font-size: 14.5px; }
       html += `<div class="formula">${X.render(hf, ctxH)}</div>
         <div class="total-line"><span>수능 환산 점수</span><b>${fmt(r.my, 2)}</b>${chg(base.my, r.my)}
         <span class="muted">합격 평균 ${fmt(r.avg)} · 과부족 ${signed(isNum(r.my) && isNum(r.avg) ? r.my - r.avg : null)} · 실기상위권 지원점수 ${fmt(r.top)}</span></div>
-        <div class="cap">엑셀 ${esc(info.sd)} 시트 H${info.sr} 셀 수식을 풀어 쓴 것입니다. 파란 칸은 표에서 찾아온 값입니다.</div>`;
+        <div class="cap">파란 칸은 등급표·변환표준점수표에서 찾아온 값입니다.</div>`;
     } else html += '<p class="hint">이 대학의 수능 산출식을 찾지 못했습니다.</p>';
     html += `</section>`;
     // 2. 영어·한국사 등급별 점수표
@@ -1674,16 +1669,15 @@ td.total b { font-size: 14.5px; }
     if (gts.length) {
       html += '<div class="lktables">' + gts.map((t) => {
         const lv = X.valueOf(t.arg, t.ctx);
-        const cap = captionAbove('영어한국사', t.t.r1, t.t.c1, t.t.c1 + t.col - 1);
         const title = t.kind === '기타' || !['영어', '한국사'].includes(t.kind) ? t.kind + ' 등급표' : t.kind;
-        return `<div class="ltab"><div class="t">${esc(title)}${t.neg ? ' (감점)' : ''}<span>${esc(cap)}</span></div>${lookupTableHtml('영어한국사', t.t, t.col, lv, { grade: true, neg: t.neg })}</div>`;
+        return `<div class="ltab"><div class="t">${esc(title)}${t.neg ? ' (감점)' : ''}</div>${lookupTableHtml('영어한국사', t.t, t.col, lv, { grade: true, neg: t.neg })}</div>`;
       }).join('') + '</div><div class="cap">색칠된 칸이 이 학생의 등급입니다.</div>';
     } else html += '<p class="hint">수능 산출식에서 영어·한국사 등급표를 따로 쓰지 않습니다(점수 직접 반영 또는 다른 방식).</p>';
     html += `</section>`;
     // 3. 실기 배점표
     html += `<section class="us-sec"><h4>실기 배점표</h4>`;
     const evs = univEvents(info);
-    if (!evs.length) html += '<p class="hint">이 대학은 실기를 반영하지 않거나 엑셀에 실기 배점 자료가 없습니다.</p>';
+    if (!evs.length) html += '<p class="hint">이 대학은 실기 배점 자료가 없습니다.</p>';
     else {
       const ctxCol = (rr) => ({ sheet: info.ex, r: rr, c: info.silgiCol });
       html += evs.map((e) => {
@@ -1701,8 +1695,7 @@ td.total b { font-size: 14.5px; }
           const col = Math.trunc(Number(X.valueOf(vl.args[2], ctxCol(e.r))));
           const lv = X.valueOf(vl.args[0], ctxCol(e.r));
           const hasRec = numOrStr(rec) !== null;
-          const cap = captionAbove(tsheet, t.r1, t.c1, t.c1 + col - 1);
-          body = (cap ? `<div class="cap">${esc(cap)} · 엑셀 ${esc(tsheet)}!${colName(t.c1)}${t.r1}:${colName(t.c1 + col - 1)}${t.r2}${mult ? ' · 배점' + mult : ''}</div>` : '') +
+          body = (mult ? `<div class="cap">표의 점수에${mult}를 곱해 반영합니다.</div>` : '') +
             lookupTableHtml(tsheet, t, col, hasRec ? lv : null, { exact: vl.args[3] && vl.args[3].k === 'lit' && vl.args[3].v === false });
         } else {
           body = `<div class="formula">${X.render(e.f, ctxCol(e.r))}</div>`;
